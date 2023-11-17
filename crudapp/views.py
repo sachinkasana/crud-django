@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Book
-from .forms import BookForm
+from .forms import BookForm,AuthorForm
 
 # Create your views here.
 def bookList(request):  
@@ -42,3 +42,13 @@ def bookDelete(request, id):
     except:
         pass
     return redirect('book-list')
+
+def createAuthor(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book-list')  # Replace 'author-list' with your URL name for author list
+    else:
+        form = AuthorForm()
+    return render(request, 'author-create.html', {'form': form})
